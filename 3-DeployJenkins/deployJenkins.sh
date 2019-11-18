@@ -7,7 +7,7 @@ kubectl create -f ../manifests/jenkins/k8s-jenkins-secret.yaml
 
 echo "Waiting for Jenkins to start..."
 
-sleep 120
+sleep 240
 
 export JENKINS_URL=$(kubectl describe svc jenkins -n cicd | grep "LoadBalancer Ingress:" | sed 's~LoadBalancer Ingress:[ \t]*~~')
 export JENKINS_URL_PORT=24711
@@ -28,7 +28,7 @@ curl -s -XPOST http://$JENKINS_URL:$JENKINS_URL_PORT/createItem?name=DeploySockS
 curl -X POST http://$JENKINS_URL:$JENKINS_URL_PORT/restart -u $JENKINS_USERNAME_DECODE:$JENKINS_PASSWORD_DECODE
 
 #Wait for Jenkins to restart
-sleep 60
+sleep 120
 
 echo "----------------------------------------------------"
 echo "Jenkins is running at : http://$JENKINS_URL:$JENKINS_URL_PORT"
